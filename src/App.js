@@ -1,23 +1,32 @@
-import logo from './logo.svg';
+import react, { useState, useEffect} from 'react'
 import './App.css';
+import firebase from './firebase'
 
-function App() {
+const Comments = () => {
+  const ref = firebase.database().ref('test')
+  const [data, setDate] = useState({})
+  
+  useEffect(() => {
+    ref.on('value', snapshot => {
+      console.log(snapshot.val())
+      setDate(snapshot.val())
+    })
+    return () => {
+      ref.off()
+    }
+  }, [])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <pre>{JSON.stringify(data)}</pre>
+  )
+}
+
+function App() {  
+  const [visible, toggle] = useState(true)
+  
+  return (
+    <div>
+      <button onClick={() => toggle(!visible)}>Toggle</button>
+      { visible && <Comments />}
     </div>
   );
 }
