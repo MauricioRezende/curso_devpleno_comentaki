@@ -3,27 +3,19 @@ import react from 'react'
 import NewComment from './NewComment'
 import Comments from './Comments'
 
-/*
-firebase
-    .auth()
-    .createUserWithEmailAndPassword('lmauricio-2010@hotmail.com','123456')
-    
-firebase
-    .auth()
-    .onAuthStateChanged(user => {
-        if(user){
-            console.log(user.displayName)
-            user.updateProfile({displayName: 'José Mauricio'})            
-        }
-    })
-*/
+import { AuthProvider } from './auth'
+import CreateUser from './CreateUser'
 
 function App() {
+
     return (
-        <div>
-            <NewComment />
-            <Comments />
-        </div>
+        <AuthProvider>
+            <div>
+                <NewComment />
+                <Comments />
+                <CreateUser />
+            </div>
+        </AuthProvider>
     );
 }
 
